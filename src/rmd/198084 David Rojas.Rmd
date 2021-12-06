@@ -1,0 +1,68 @@
+---
+title: "Proyecto final (primera entrega)"
+author: "David Rojas -- 198084"
+date: "Macroeconomía Aplicada, Otoño 2021"
+output:
+  pdf_document: default
+  extra_dependencies:
+    hyperref:
+    - unicode = true
+    - breaklinks = true
+    babel: spanish
+header-includes:
+- \usepackage{fancyhdr}
+- \pagestyle{fancy}
+- \fancyhead[R]{David Rojas -- 190804}
+- \fancyhead[L]{\textsc{Macroeconomía aplicada 1}}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Pregunta de interés
+
+Se desea ilustrar, comparando las dos últimas grandes crisis financieras, las principales diferencias en la evolución de los impactos que estas crisis han tenido en los mercados laborales en México.
+
+Se compara la crisis financiera del 2008 con la generada por la pandemia Covid-19.
+
+## Referencias revisadas
+
+Se usarán como referencia los siguientes dos documentos.
+
+- Un Working paper de Ippei Shibata del IMF. \emph{The Distributional Impact of Recessions: the Global Financial Crisis and the Pandemic Recession.}\footnote{\url{https://www.imf.org/en/Publications/WP/Issues/2020/06/19/The-Distributional-Impact-of-Recessions-the-Global-Financial-Crisis-and-the-Pandemic-49492}}
+En este working paper se ilustran las diferencias entre ambas crisis económicas al comparar cambios en las tasas de desempleo de los periodos 2007-2009 vs 2019-jul2020  cruzando con las principales características demográficas.
+
+- Un recuadro del ECB. \emph{The impact of the COVID-19 crisis on the euro area labour market for men and women}. ECB Economic Bulletin, Issue 4/2021.\footnote{\url{https://www.ecb.europa.eu/pub/economic-bulletin/focus/2021/html/ecb.ebbox202104_04~686c89e9bb.en.html}}
+Analizan los cambios en las tasas de empleo, desempleo y labor force, hombre vs mujer, e ilustran sus diferencias.
+
+## Fuentes
+
+Se utilizará como fuente de datos la ENOE (y la ETOE para abril mayo y junio de 2020). Se cuenta con información desde enero de 2005.
+
+## Análisis descriptivo
+
+Se elige comparar los periodos de tiempo de octubre 2007 a mayo 2009 y diciembre 2019 a julio 2021. (La ventana podría ampliarse para el proyecto final).
+
+Se identificará como el "punto álgido" de la crisis el mes en el que el índice del Dow Jones tocó el punto más bajo (enero 2008 y marzo 2020). A partir de este punto se compara la dinámica de la variación porcentual y/o absoluta con respecto a un año antes para distintas variables.
+
+Se plantea abordar inicialmente los siguientes análisis descriptivos.
+\begin{enumerate}
+
+\item Desarrollo mensual a partir del punto álgido de la variación porcentual anual de número de empleos por sector.
+
+\item Desarrollo mensual a partir del punto álgido  de la variación porcentual anual de número de empleos por género.
+
+\item Desarrollo mensual a partir del punto álgido  de la variación porcentual anual de número de empleos por grupo de edad.
+
+\item Desarrollo mensual a partir del punto álgido  de la tasa de desocupación para población económicamente activa.
+
+\item Desarrollo mensual a partir del punto álgido  de la distribución del nivel de ingreso.
+
+\item Desarrollo mensual a partir del punto álgido  de la distribución de la duración de la jornada laboral.
+
+\end{enumerate}
+
+La intención es graficar estos bullets y seleccionar los que aporten más a la narrativa. El cuerpo del texto se complementará con las cifras más significativas y las conclusiones más evidentes, a la manera del recuadro del ECB que se mencionó en las referencias.
+
+

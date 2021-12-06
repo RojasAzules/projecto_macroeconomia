@@ -1,0 +1,13 @@
+"0","# Chunks config"
+"0","knitr::opts_chunk$set(echo = FALSE,"
+"0","                      message = FALSE,"
+"0","                      warning = FALSE,"
+"0","                      fig.width = 6,"
+"0","                      fig.height = 3.8,"
+"0","                      fig.align = 'center')"
+"0",""
+"0","source('src/data_indicadores_estrategicos.R')"
+"2","cannot open file 'src/data_indicadores_estrategicos.R': No such file or directory"
+"2","Error in file(filename, ""r"", encoding = encoding) : 
+  cannot open the connection
+"

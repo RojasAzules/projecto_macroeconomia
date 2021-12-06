@@ -1,0 +1,343 @@
+---
+title: "Evolución de los mercados laborales: 2009 vs 2020"
+author: "David Rojas -- 198084"
+date: "Macroeconomía Aplicada, Otoño 2021"
+output:
+  pdf_document: default
+  extra_dependencies:
+    hyperref:
+    - unicode = true
+    - breaklinks = true
+    babel: spanish
+header-includes:
+- \usepackage{fancyhdr}
+- \pagestyle{fancy}
+- \fancyhead[R]{David Rojas -- 190804}
+- \fancyhead[L]{\textsc{Macroeconomía aplicada}}
+---
+
+```{r setup, include=FALSE}
+# Chunks config
+knitr::opts_chunk$set(echo = FALSE,
+                      message = FALSE,
+                      warning = FALSE,
+                      fig.width = 6,
+                      fig.height = 3.8,
+                      fig.align = 'center')
+
+source('src/data_indicadores_estrategicos.R')
+source('src/indicadores_relativos.R')
+
+```
+
+Se documenta la evolución de los mercados laborales en México tras la crisis derivada de la emergencia sanitaria por Covid-19 y se compara con la evolución que siguió a la Crisis Financiera Global del 2008 (CFG).
+
+**A agosto de 2021, la tasa de participación de hombres y mujeres ha regresado a niveles pre pandémicos**. Si bien la tasa de participación para hombres en agosto de 2021 (76.4%) ha vuelto a los niveles de febrero de 2020 (76.8%), a diferencia de la recesión de la CFG, dicha tasa se mantuvo durante 15 meses por debajo de su nivel prepandémico. A su vez, la tasa de participación de mujeres en agosto de 2021 (44.2%) también ha regresado al nivel de febrero de 2020 (45.1%). Una diferencia importante entre la CFG y la crisis por Covid-19 es el cambio demográfico que ha ocurrido entre ambos periodos históricos. Considerando los niveles prepandémicos, en 2020 se observa un tasa de participación para hombres dos puntos porcentuales más baja que en 2009. Para las mujeres esta cifra fue cuatro puntos porcentuales más alta en 2020 que en 2009.
+
+```{r grafica_tasa_de_participacion}
+
+interes <- "v243_tasa_de_participacion"
+
+## Grafiquirri
+factor <- 1
+hombre$interes <- as.numeric(hombre[, interes])*factor
+mujer$interes <- as.numeric(mujer[, interes])*factor
+# Ventana de meses antes y después de cada crisis que queremos graficar
+ventana <- c(-3, 21)
+# Gráfica
+ggplot() + 
+  geom_line(data = hombre %>% filter(between(mes_crisis_1, ventana[1], ventana[2])),
+            aes(x = mes_crisis_1, y = interes, colour = '2009')) + 
+  geom_line(data = mujer %>% filter(between(mes_crisis_1, ventana[1], ventana[2])),
+            aes(x = mes_crisis_1, y = interes, colour = '2009'),
+            linetype = 2) + 
+  geom_line(data = hombre %>% filter(between(mes_crisis_2, ventana[1], ventana[2])),
+            aes(x = mes_crisis_2, y = interes, colour = '2020')) +
+  geom_line(data = mujer %>% filter(between(mes_crisis_2, ventana[1], ventana[2])),
+            aes(x = mes_crisis_2, y = interes, colour = '2020'),
+            linetype = 2) +
+  labs(title = 'Tasa de participación',
+       subtitle = 'Hombres en línea continua, mujeres en línea discontinua.', 
+       caption = 'Cifras de la ENOE y ETOE (INEGI)',
+       colour = 'Año') + 
+  xlab('Mes de desarrollo del ajuste de mercado') + 
+  ylab('Puntos porcentuales') +
+  theme_light() + 
+  theme(legend.position = "bottom") + 
+    scale_color_lancet()
+  # scale_colour_simpsons()
+
+```
+
+
+```{r calculo_brechas}
+# Cálculo de brecha de subocupación hombre/mujer
+
+# Sólo se tienen 17 datos post-shock en 2020-2021, para que sean comparables usaremos la misma ventana en ambas crisis
+ventana <- c(1, 17)
+
+# Diferencia entre tasa de subocupación hombre/mujer en 2009/2010
+brecha_1 <- round(mean(hombre %>% filter(between(mes_crisis_1, ventana[1], ventana[2])) %>% mutate(v250_tasa_de_subocupacion = as.numeric(v250_tasa_de_subocupacion)) %>% pull(v250_tasa_de_subocupacion) - mujer %>% filter(between(mes_crisis_1, ventana[1], ventana[2])) %>% mutate(v250_tasa_de_subocupacion = as.numeric(v250_tasa_de_subocupacion)) %>% pull(v250_tasa_de_subocupacion)),2)
+
+# Diferencia entre tasa de subocupación hombre/mujer en 2020/2021
+brecha_2 <- round(mean(hombre %>% filter(between(mes_crisis_2, ventana[1], ventana[2])) %>% mutate(v250_tasa_de_subocupacion = as.numeric(v250_tasa_de_subocupacion)) %>% pull(v250_tasa_de_subocupacion) - mujer %>% filter(between(mes_crisis_2, ventana[1], ventana[2])) %>% mutate(v250_tasa_de_subocupacion = as.numeric(v250_tasa_de_subocupacion)) %>% pull(v250_tasa_de_subocupacion)),2)
+
+```
+
+**Sin embargo, al analizar la tasa de subocupación, esta aún se encuentra por encima de los niveles prepandémicos**. La tasa de subocupación en agosto de 2021 se encuentra cinco puntos porcentuales pon encima del mismo dato en agosto de 2019. Esto implica que en contraste con la CFG, la crisis producida por el Covid-19 ha tenido un mayor acento en la subocupación. El punto más alto en la tasa de subocupación durante mayo de 2021 (29.9%) es poco más de dos veces más grande que la tasa de subocupación máxima durante la CFG en mayo de 2009 (12.93%). El aumento en la tasa de subocupación ha sido menos diferenciado por identidad de género que durante la CFG. Durante la CFG, la tasa de subocupación fue en promedio `r brecha_1` puntos porcentuales más alta para hombres que para mujeres, en contraste con los `r brecha_2` puntos porcentuales adicionales para hombres que para mujeres durante la crisis del Covid-19.
+
+
+```{r subocupacion}
+
+interes <- "v250_tasa_de_subocupacion"
+
+## Grafiquirri
+factor <- 1
+hombre$interes <- as.numeric(hombre[, interes])*factor
+mujer$interes <- as.numeric(mujer[, interes])*factor
+# Ventana de meses antes y después de cada crisis que queremos graficar
+ventana <- c(-3, 21)
+# Gráfica
+ggplot() + 
+  geom_line(data = hombre %>% filter(between(mes_crisis_1, ventana[1], ventana[2])),
+            aes(x = mes_crisis_1, y = interes, colour = '2009')) + 
+  geom_line(data = mujer %>% filter(between(mes_crisis_1, ventana[1], ventana[2])),
+            aes(x = mes_crisis_1, y = interes, colour = '2009'),
+            linetype = 2) + 
+  geom_line(data = hombre %>% filter(between(mes_crisis_2, ventana[1], ventana[2])),
+            aes(x = mes_crisis_2, y = interes, colour = '2020')) +
+  geom_line(data = mujer %>% filter(between(mes_crisis_2, ventana[1], ventana[2])),
+            aes(x = mes_crisis_2, y = interes, colour = '2020'),
+            linetype = 2) +
+  labs(title = 'Tasa de subocupación',
+       subtitle = 'Hombres en línea continua, mujeres en línea discontinua.', 
+       caption = 'Cifras de la ENOE y ETOE (INEGI)',
+       colour = 'Año') + 
+  xlab('Mes de desarrollo del ajuste de mercado') + 
+  ylab('Puntos porcentuales') +
+  theme_light() + 
+  theme(legend.position = "bottom") + 
+    scale_color_lancet()
+  # scale_colour_simpsons()
+
+```
+
+
+
+**Se observa un aparente cambio en la distribución del nivel de ingreso**. De diciembre de 2019 a agosto de 2021, más de 10 por cierto de la población ha pasado a caer dentro del grupo de personas que perciben menos de dos salarios mínimos. Sin embargo, los principales cambios en la distribución de la población por nivel de ingreso han ocurrido en diciembre de los ùltimos dos años y coinciden con los ajustes al monto del salario mínimo. Al cambiar la métrica, el número de personas que percibe más de tres salarios mínimos pasó de 13.8% en diciembre de 2019 a 9.14% en agosto de 2021.
+
+```{r cuentas_distribucion}
+interes1 <- "v104_hasta_un_salario_minimo"
+interes2 <- "v105_mas_de_1_hasta_2_salarios_minimos"
+interes3 <- "v106_mas_de_2_hasta_3_salarios_minimos"
+interes4 <- "v107_mas_de_3_hasta_5_salarios_minimos"
+interes5 <- "v108_mas_de_5_salarios_minimos"
+interes6 <- "v109_no_especificado"
+factor <- 1
+relativos$interes1 <- as.numeric(relativos[, interes1])*factor
+relativos$interes2 <- as.numeric(relativos[, interes2])*factor
+relativos$interes3 <- as.numeric(relativos[, interes3])*factor
+relativos$interes4 <- as.numeric(relativos[, interes4])*factor
+relativos$interes5 <- as.numeric(relativos[, interes5])*factor
+relativos$interes6 <- as.numeric(relativos[, interes6])*factor
+
+relativos$menos_de_2sm <- relativos$interes1 + relativos$interes2
+relativos$mas_de_3sm <- relativos$interes4 + relativos$interes5
+
+```
+
+
+```{r graficaDistribucion09}
+# Ventana de meses antes y después de cada crisis que queremos graficar
+ventana <- c(-3, 21)
+# Gráfica
+ggplot() + 
+  geom_area(data = relativos %>% filter(between(mes_crisis_1, ventana[1], ventana[2])),
+            aes(x = mes_crisis_1, y = interes1+interes2+interes3+interes4+interes5+interes6, 
+                fill = 'NS/NC')) + 
+  geom_area(data = relativos %>% filter(between(mes_crisis_1, ventana[1], ventana[2])),
+            aes(x = mes_crisis_1, y = interes1+interes2+interes3+interes4+interes5, 
+                fill = 'Más de 5 s.m.')) + 
+  geom_area(data = relativos %>% filter(between(mes_crisis_1, ventana[1], ventana[2])),
+            aes(x = mes_crisis_1, y = interes1+interes2+interes3+interes4, 
+                fill = '3 a 5 s.m.')) + 
+  geom_area(data = relativos %>% filter(between(mes_crisis_1, ventana[1], ventana[2])),
+            aes(x = mes_crisis_1, y = interes1+interes2+interes3, 
+                fill = '2 a 3 s.m.')) + 
+  geom_area(data = relativos %>% filter(between(mes_crisis_1, ventana[1], ventana[2])),
+            aes(x = mes_crisis_1, y = interes1+interes2, 
+                fill = '1 a 2 s.m.')) + 
+  geom_area(data = relativos %>% filter(between(mes_crisis_1, ventana[1], ventana[2])),
+            aes(x = mes_crisis_1, y = interes1, 
+                fill = 'Hasta 1 s.m.')) + 
+  labs(title = 'Evolución de la distribución del nivel de ingreso',
+       subtitle = '2009-2010',
+       caption = 'Cifras de la ENOE y ETOE (INEGI)',
+       fill = 'Nivel de ingreso') + 
+  xlab('Mes de desarrollo del ajuste de mercado') + 
+  ylab('Puntos porcentuales') +
+  theme_light() + 
+  theme(legend.position = "bottom") + 
+    scale_color_lancet()
+  # scale_colour_simpsons()
+```
+
+
+
+```{r graficaDistribucion20}
+# Ventana de meses antes y después de cada crisis que queremos graficar
+ventana <- c(-3, 21)
+# Gráfica
+ggplot() + 
+  geom_area(data = relativos %>% filter(between(mes_crisis_2, ventana[1], ventana[2])),
+            aes(x = mes_crisis_2, y = interes1+interes2+interes3+interes4+interes5+interes6, 
+                fill = 'NS/NC')) + 
+  geom_area(data = relativos %>% filter(between(mes_crisis_2, ventana[1], ventana[2])),
+            aes(x = mes_crisis_2, y = interes1+interes2+interes3+interes4+interes5, 
+                fill = 'Más de 5 s.m.')) + 
+  geom_area(data = relativos %>% filter(between(mes_crisis_2, ventana[1], ventana[2])),
+            aes(x = mes_crisis_2, y = interes1+interes2+interes3+interes4, 
+                fill = '3 a 5 s.m.')) + 
+  geom_area(data = relativos %>% filter(between(mes_crisis_2, ventana[1], ventana[2])),
+            aes(x = mes_crisis_2, y = interes1+interes2+interes3, 
+                fill = '2 a 3 s.m.')) + 
+  geom_area(data = relativos %>% filter(between(mes_crisis_2, ventana[1], ventana[2])),
+            aes(x = mes_crisis_2, y = interes1+interes2, 
+                fill = '1 a 2 s.m.')) + 
+  geom_area(data = relativos %>% filter(between(mes_crisis_2, ventana[1], ventana[2])),
+            aes(x = mes_crisis_2, y = interes1, 
+                fill = 'Hasta 1 s.m.')) + 
+  labs(title = 'Evolución de la distribución del nivel de ingreso',
+       subtitle = '2020-2021',
+       caption = 'Cifras de la ENOE y ETOE (INEGI)',
+       fill = 'Nivel de ingreso') + 
+  xlab('Mes de desarrollo del ajuste de mercado') + 
+  ylab('Puntos porcentuales') +
+  theme_light() + 
+  theme(legend.position = "bottom") + 
+    scale_color_lancet()
+  # scale_colour_simpsons()
+```
+
+
+
+
+
+```{r calculo_trabajo_domestico_remunerado}
+# Cambio absoluto en el promedio de población ocupada antes y después de la pandemia
+d_domestico_abs <- round(indicadores %>% filter(fecha > '2020-09-01', fecha < '2021-09-30') %>% mutate(v78_trabajo_domestico_remunerado = as.numeric(v78_trabajo_domestico_remunerado)) %>% pull(v78_trabajo_domestico_remunerado) %>% mean()
+  -
+indicadores %>% filter(fecha > '2019-03-01', fecha < '2020-03-01') %>% mutate(v78_trabajo_domestico_remunerado = as.numeric(v78_trabajo_domestico_remunerado)) %>% pull(v78_trabajo_domestico_remunerado) %>% mean(), 2)
+# Cambio relativo en el promedio de población ocupada antes y después de la pandemia
+d_domestico_rel <- round(indicadores %>% filter(fecha > '2020-09-01', fecha < '2021-09-30') %>% mutate(v78_trabajo_domestico_remunerado = as.numeric(v78_trabajo_domestico_remunerado)) %>% pull(v78_trabajo_domestico_remunerado) %>% mean()
+  /
+indicadores %>% filter(fecha > '2019-03-01', fecha < '2020-03-01') %>% mutate(v78_trabajo_domestico_remunerado = as.numeric(v78_trabajo_domestico_remunerado)) %>% pull(v78_trabajo_domestico_remunerado) %>% mean() - 1, 2)
+
+```
+
+**La población ocupada en el trabajo doméstico remunerado ha regresado en términos absolutos a los niveles de 2009**. Se puede observar un importante cambio en el número de personas ocupadas en este mercado. Una disminución de `r round(abs(d_domestico_rel)*100,1)` puntos porcentuales y una pérdida de 278 mil empleos.
+
+```{r grafica_trabajo_domestico}
+
+interes <- "v78_trabajo_domestico_remunerado"
+
+## Grafiquirri
+factor <- 0.000001
+indicadores$interes <- as.numeric(indicadores[, interes])*factor
+# Ventana de meses antes y después de cada crisis que queremos graficar
+ventana <- c(-12, 18)
+# Gráfica
+ggplot() + 
+  geom_line(data = indicadores %>% filter(between(mes_crisis_1, ventana[1], ventana[2])),
+            aes(x = mes_crisis_1, y = interes, colour = '2009')) + 
+  geom_line(data = indicadores %>% filter(between(mes_crisis_2, ventana[1], ventana[2])),
+            aes(x = mes_crisis_2, y = interes, colour = '2020')) +
+  labs(title = 'Trabajo doméstico remunerado',
+       subtitle = 'Población ocupada', 
+       caption = 'Cifras de la ENOE y ETOE (INEGI)',
+       colour = 'Año') + 
+  xlab('Mes de desarrollo del ajuste de mercado') + 
+  ylab('Millones de personas') +
+  theme_light() + 
+  theme(legend.position = "bottom") + 
+    scale_color_lancet()
+  # scale_colour_simpsons()
+
+```
+
+
+**El cambio en la población subocupada fue diferenciado por nivel educativo**. Las personas con un nivel de estudios medio superior y superior llegaron a sufrir un aumento de 273%, por encima de los 191% de poblaciòn con primaria y el 194% de la población con secundaria. Es decir, personas con niveles de estudios más altos pasaron más fácilmente a la subocupación. Este comportamiento es cualitativamente similar al de la recesión del 2009, sin embargo, la magnitud del paso a la subocupación ha sido un 80% mayor durante la crisis del Covid-19.
+
+
+```{r grafica_por_escolaridad}
+
+interes1 <- "v149_primaria_completa"
+interes2 <- "v150_secundaria_completa"
+interes3 <- "v151_medio_superior_y_superior"
+factor <- 1
+indicadores$interes1 <- as.numeric(indicadores[, interes1])*factor
+indicadores <- indicadores %>% mutate(interes1 = (interes1 / lag(interes1, 12) - 1)*100)
+indicadores$interes2 <- as.numeric(indicadores[, interes2])*factor
+indicadores <- indicadores %>% mutate(interes2 = (interes2 / lag(interes2, 12) - 1)*100)
+indicadores$interes3 <- as.numeric(indicadores[, interes3])*factor
+indicadores <- indicadores %>% mutate(interes3 = (interes3 / lag(interes3, 12) - 1)*100)
+
+## Grafiquirri
+lcols <- rep(pal_lancet("lanonc")(2), each = 3)
+tippp <- rep(c('solid', 'dashed', 'dotted'), 2)
+LegendTitle <- "Nivel de escolaridad"
+# Ventana de meses antes y después de cada crisis que queremos graficar
+ventana <- c(-3, 21)
+# Gráfica
+ggplot() + 
+  geom_line(data = indicadores %>% filter(between(mes_crisis_1, ventana[1], ventana[2])),
+            aes(x = mes_crisis_1, y = interes1, colour = '2009'),
+            linetype = 1) + 
+  geom_line(data = indicadores %>% filter(between(mes_crisis_1, ventana[1], ventana[2])),
+            aes(x = mes_crisis_1, y = interes2, colour = '2009'),
+            linetype = 2) + 
+  geom_line(data = indicadores %>% filter(between(mes_crisis_1, ventana[1], ventana[2])),
+            aes(x = mes_crisis_1, y = interes3, colour = '2009'),
+            linetype = 3) + 
+  geom_line(data = indicadores %>% filter(between(mes_crisis_2, ventana[1], ventana[2])),
+            aes(x = mes_crisis_2, y = interes1, colour = '2020'),
+            linetype = 1) + 
+  geom_line(data = indicadores %>% filter(between(mes_crisis_2, ventana[1], ventana[2])),
+            aes(x = mes_crisis_2, y = interes2, colour = '2020'),
+            linetype = 2) + 
+  geom_line(data = indicadores %>% filter(between(mes_crisis_2, ventana[1], ventana[2])),
+            aes(x = mes_crisis_2, y = interes3, colour = '2020'),
+            linetype = 3) + 
+  labs(title = 'Cambio anual en población subocupada por nivel educativo',
+       subtitle = 'Medio superior y superior en punteada. Secundaria en discontinua. Primaria en continua', 
+       caption = 'Cifras de la ENOE y ETOE (INEGI)',
+       colour = 'Año') + 
+  xlab('Mes de desarrollo del ajuste de mercado') + 
+  ylab('Puntos porcentuales') +
+  theme_light() + 
+  # theme(legend.position = "bottom") + 
+  scale_color_lancet() +
+  # scale_color_manual(name = LegendTitle, values = lcols) +
+  scale_linetype_manual(name = LegendTitle, values = tippp) +
+  theme(legend.position = c(.80, .75))
+  # scale_colour_simpsons()
+
+```
+
+
+En resumen, este recuadro documenta el impacto de la crisis del Covid-19 en los mercados laborales en México basados en la información disponible a agosto de 2021, subrayando que tanto hombres como mujeres fueron afectados significativamente.
+
+
+## Referencias
+
+- Shibata, Ippei. 2020. \emph{The Distributional Impact of Recessions: the Global Financial Crisis and the Pandemic Recession.} IMF Working Paper No. 20/96. (\url{ https://www.imf.org/en/Publications/WP/Issues/2020/06/19/The-Distributional-Impact-of-Recessions-the-Global-Financial-Crisis-and-the-Pandemic-49492}).
+
+- Botelho, Vasco and Neves, Pedro. 2021. \emph{The impact of the COVID-19 crisis on the euro area labour market for men and women}. ECB Economic Bulletin, Issue 4/2021. (\url{ https://www.ecb.europa.eu/pub/economic-bulletin/focus/2021/html/ecb.ebbox202104_04~686c89e9bb.en.html})
+
+- Albanesi, Stefania, and Jiyeon Kim. 2021. \emph{Effects of the COVID-19 Recession on the US Labor Market: Occupation, Family, and Gender.} Journal of Economic Perspectives, 35 (3): 3-24. (\url{ https://www.aeaweb.org/articles?id=10.1257/jep.35.3.3})
+
+- Encuesta Nacional de Ocupaciòn y Empleo, ENOE. Instituto Nacional de Información, Estadística y Geografía, México.
+
+- Encuesta Telefónica de Ocupaciòn y Empleo, ETOE. Instituto Nacional de Información, Estadística y Geografía, México.
+
+

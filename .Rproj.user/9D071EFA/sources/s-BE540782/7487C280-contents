@@ -1,0 +1,145 @@
+---
+title: "Mercados laborales durante recesiones recientes"
+author: "David Rojas -- 198084"
+date: "Macroeconomía Aplicada, Otoño 2021"
+output:
+  pdf_document: default
+  extra_dependencies:
+    hyperref:
+    - unicode = true
+    - breaklinks = true
+    babel: spanish
+header-includes:
+- \usepackage{fancyhdr}
+- \pagestyle{fancy}
+- \fancyhead[R]{David Rojas -- 190804}
+- \fancyhead[L]{\textsc{Macroeconomía aplicada}}
+---
+
+```{r setup, include=FALSE}
+# Chunks config
+knitr::opts_chunk$set(echo = FALSE,
+                      message = FALSE,
+                      warning = FALSE,
+                      fig.width = 5,
+                      # fig.height = 3.8,
+                      fig.align = 'center')
+
+```
+
+
+
+
+## Introducción
+
+En el contexto de la pandemia Covid-19, el riesgo de contagio ha hecho necesarias medidas de distanciamiento social y restricciones en las operaciones de los negocios que han tenido un profundo impacto económico y social. Al interior de los hogares se ha generado un cambio en la estrategia con la que se resuelven las necesidades de ingreso y cuidado doméstico, es decir, los participantes de los hogares han reajustado el óptimo de sus decisiones de oferta laboral y trabajo en casa. Además del impacto en la actividad económica, se observan importantes cambios en los mercados laborales que difieren cualitativamente de los observados durante la última recesión, en particular, se observa un importante impacto en el trabajo doméstico remunerado, otro elemento más que refleja el cambio en las elecciones de los hogares mexicanos. Este Recuadro documenta la evolución de los mercados laborales en México tras la crisis derivada de la emergencia sanitaria por Covid-19 y, para algunos elementos, la compara con la evolución que siguió a la Crisis Financiera Global del 2008 (CFG).
+
+## Cambio en la tasa de participación, 2009 vs 2020
+
+Durante las recesiones económicas, el mercado laboral de las mujeres tiene un comportamiento diferente al de los hombres y los motivos existen tanto del lado de la oferta como de la demanda. Partiendo de que los hombres tienden a estar en ocupaciones de producción y las mujeres en ocupaciones de servicios, la oferta laboral de dichos sectores se comporta de manera distinta durante los periodos de recesión. Esto es relevante en el contexto de la pandemia Covid-19, pues el sector de servicios se ha visto afectado de manera especial. Por otra parte, podemos identificar dos mecanismos del lado de la demanda. El primero corresponde al *efecto de la persona trabajadora adicional*. Partamos de que en una casa existe una persona asalariada principal, en caso de que esta persona pierda su empleo, podrían aparecer nuevos participantes en el mercado laboral como respuesta de la familia a la pérdida del ingreso principal. Un ejemplo podría ser una familia con un varón como persona asalariada principal, en cuyo caso la esposa o los hijos adolescentes podrían ingresar al mercado laboral en periodos de necesidad. El segundo mecanismo del lado de la oferta se conoce como *oferta laboral cautelar*. Supongamos que en un hogar se anticipa un aumento en la probabilidad de que la persona asalariada principal pierda su ingreso, en este caso, si ya existe una segunda persona asalariada, esta segunda persona responde manteniendo o aumentando su oferta laboral. Por ejemplo, un hogar compuesto por una madre soltera, quien sería la persona asalariada principal, y su madre, quien podría ser una segunda persona asalariada. En este caso, ante el aumento en el riesgo de pérdida de empleo de la madre soltera, la abuela podría mantener su oferta laboral a pesar de quizá no ser la decisión más óptima, además de lo que pueda significar para esta persona en el contexto de la pandemia Covid-19 al tratarse de población vulnerable.
+
+Para este recuadro se trabaja con la información de la Encuesta Nacional de Ocupación y Empleo (ENOE) del INEGI. Se utiliza la información de los indicadores estratégicos mensuales de diciembre de 2008 a septiembre de 2021. Se utilizan a su vez los microdatos de la ENOE del cuarto trimestre del 2019 al tercer trimestre de 2021.
+
+En la gráfica 1 podemos observar la respuesta de la oferta laboral durante la recesión de la CFG. Se calcula el cambio porcentual de la tasa de participación, para hombres y mujeres, con respecto a la tasa de participación del mes del "fondo de la crisis". Para elegir el mes del fondo de la crisis se elige el mes en el que el índice Dow Jones tocó su punto más bajo. Por ejemplo, para la CFG corresponde a marzo de 2009 y para la recesión pandémica a marzo de 2020. Por otra parte, el Indicador Global de la Actividad Económica tocó su fondo en mayo de 2009 así como en mayo de 2020 Realizar la comparación desde marzo nos permite considerar la fase inicial de la pandemia como parte de la crisis. Se puede observar que durante la CFG, a partir de marzo de 2009, el cambio en la tasa de participación de las mujeres fue más alto que el de los hombres, lo cual coincide con lo propuesto por el *efecto de la persona trabajadora adicional*.
+
+Por otra parte, Banxico (2021) ha documentado la forma diferenciada que la fase inicial de la pandemia afectó por identidad de género, y observa que las mujeres se han reincorporado al mercado laboral de forma más lenta. En la gráfica 2 se puede observar que, adicional a esto y en contraste con la recesión generada por la CFG, la recuperación de la tasa de participación de los hombres ha estado siempre por encima de la de las mujeres. El otro cambio cualitativo que es importante subrayar es que el cambio en la tasa de participación, con respecto al "fondo de la crisis", fue positivo durante la recesión por la CFG, mientras que durante la recesión pandémica ha sido negativo, derivado esto último de la gran salida de la fuerza laboral de millones de personas que siguió a la implementación de las medidas de distanciamiento social estricto al inicio de la pandemia.
+
+El comportamiento diferenciado de la recuperación de las tasas de participación por género entre la CFG y la recesión pandémica tiene como principales candidatas dos causas. La primera es que el confinamiento que inció en marzo de 2020, afectó de manera especial a sectores donde las mujeres tienen más participación. La segunda es que ante el cambio a escuela y trabajo en casa, la demanda de cuidados domésticos fue cubierta por las mujeres, sacrificando su participación y reincorporación laboral.
+
+```{r graficas_tasa_participacion, fig.show="hold", out.width="49%"}
+source('src/cambio_en_tasa.R')
+
+g1
+
+g2
+
+```
+
+
+
+## Tasa de participación de mujeres durante la recesión pandémica
+
+En esta sección se desagrega el análisis de las tasas de participación laboral para mujeres con respecto a su grupo de edad y con respecto a la presencia en el hogar de infantes de hasta 12 años. El análisis nos muestra la evolución trimestral de la tasa de participación por cada grupo demográfico. Se considera información del cuatro trimestre de 2019 al tercer trimestre de 2021. Se divide a las mujeres en edad de trabajar en cuatro grupos: 15 a 24 años, 25 a 44 años, 45 a 64 años y 65 años o más. La tasa de participación para cada grupo demográfico se calcula a partir de la fórmula $TP_{ect} = \frac{PEA_{ect}}{Pob_{ect}} \times 100$ donde $PEA_{ect}$ es la población económicamente activa del grupo de edad $e$ en circunstancia de presencia de menores en el hogar indicado a través de la variable $c$ para el trimestre $t$, mientras que $Pob_{ect}$ es la población del grupo de edad $e$ en circunstancia $c$ para el trimestre $t$.
+
+En las gráficas 3 a 6 podemos observar la evolución de la tasa de participación de las mujeres por grupo de edad durante la pandemia. En la gráfica 3 podemos observar que el grupo de edad compuesto por mujeres de 15 a 24 años no sólo ha logrado recuperar su tasa de participación en el mercado, sino que incluso se encuentra por encima de los niveles prepandémicos considerando ambas circunstancias: con y sin presencia de menores en el hogar; situación distinta a la del resto de los grupos de edad. La tasa de participación de las mujeres de más de 65 años, gráfica 6, es la que muestra menores signos de recuperación. Esto podría estar asociado a distintas causas; primero, este grupo es considerado como de alto riesgo en el contexto de la emergencia sanitaria, lo que hace que las mujeres mayores elijan disminuir su probabilidad de contagio al disminuir su exposición social; segundo, muchas mujeres que se encontraban cercanas al retiro, han acelerado su salida de la fuerza laboral y, finalmente, la demanda por este tipo de trabajadoras podría disminuir ante la recesión económica. Con todo, se puede observar que la tasa de participación para mujeres mayores de 65 años **con** presencia de menores de 12 años en el hogar, cayó menos que la de mujeres mayores de 65 años **sin** presencia de menores en el hogar. Es decir, **durante la pandemia por Covid-19 en México, una mujer de la tercera edad que vive en un hogar con menores de 12 años, tiene más probabilidad de seguir trabajando que una mujer de la tercera edad que no**.
+
+Este último punto podría contextualizarse con el *efecto de la oferta laboral cautelar*. La recesión económica que ha seguido a la implementación de medidas de distanciamiento social ha significado para los hogares, o bien pérdida de empleos, o bien disminución de los ingresos. Ante esta situación, en un hogar donde viven menores de edad, una mujer de la tercera edad puede elegir no diminuir su oferta laboral a pesar del riesgo que esto significa. Es decir, en este contexto, el *efecto de la oferta laboral cautelar* para mujeres de la tercera edad con infantes en el hogar se ve reflejado en una menor disminución de su participación laboral comparado con otras mujeres de la misma edad.
+
+```{r graficas_mujer_1_2, fig.show="hold", out.width="49%"}
+source('src/ggplots/tasa_participacion_mujer_edad.R')
+g3
+g4
+```
+
+```{r graficas_mujer_3_4, fig.show="hold", out.width="49%"}
+g5
+g6
+```
+
+
+## Trabajo doméstico remunerado, 2009 vs 2020
+
+La contratación de personas para tareas domésticas de limpieza y cuidado, es un sector de participación principalmente femenina, pues las mujeres componen el 87% del mismo de acuerdo con cifras de la ENOE al tercer trimestre de 2021. La salida de muchas personas del mercado laboral hizo que cambiara la forma en la que los hogares resuelven estas necesidades para, en algunos casos, remplazar la contratación de personas externas al hogar por producción doméstica. En esta sección nos enfocaremos en el trabajo doméstico remunerado y la comparación de su comportamiento entre la recesión de la CFG y la recesión pandémica. Consideraremos personas empleadas en trabajo doméstico remunerado a aquellas que en el Cuestionario de Ocupación y Empleo de la ENOE ante la pregunta "¿Cuál es el nombre de la empresa, negocio o institución para la que trabaja o ayuda?" respondieron "Es trabajador/a (subordinado/a) de una unidad doméstica o trabajador/a de otro/a trabajador/a" y reportan recibir un pago y haber laborado en la última semana. En la gráfica 7 podemos observar que la población ocupada en el trabajo doméstico remunerado ha regresado en términos cualitativos a los niveles de 2009. Se puede estimar una disminución promedio de aproximadamente 278 mil empleos.
+
+Esta disminución se puede contextualizar en términos de las medidas de confinamiento y distanciamiento social que se implementaron como acciones de mitigación ante la pandemia por Covid-19, tras las que muchas mujeres empleadas en labores domésticas remuneradas no regresaron. De acuerdo con cifras de la ENOE, el porcentaje de hogares que no contrata trabajadores domésticos era de 20% en diciembre de 2019. Un año después, en diciembre de 2020, era de 29.3% y al tercer trimestre del 2021 se encuentra en 26.4%. Esto significa que, para disminuir el riesgo de contagio, los hogares han sustituído la contratación de personas para labores domésticas con producción doméstica femenina, lo que a su vez ha ralentizado la reincorporación de las mujeres a la participación laboral.
+
+En contraste, durante la recesión por la CFG, se puede observar que el sector de trabajo doméstico remunerado mostró una tendencia ascendente tras el fondo de la crisis en términos de personas ocupadas. Esto se conecta nuevamente con el *efecto de la persona trabajadora adicional*; es posible que, ante la disminución o pérdida de ingreso por parte de los hombres en el hogar, las mujeres hayan acudido al trabajo doméstico remunerado para aportar al ingreso del hogar. Sin embargo, durante la recesión pandémica, la demanda de trabajo doméstico remunerado ha disminuído de manera importante por el peso que dan las familias a evitar el contagio y, por lo tanto, a evitar la convivencia con personas externas al nucleo familiar. Esto ha significado un duro golpe a un sector principalmente femenino.
+
+```{r grafica_trabajo_domestico, fig.show="hold", out.width="49%"}
+
+interes <- "v78_trabajo_domestico_remunerado"
+
+## Grafiquirri
+factor <- 0.000001
+indicadores$interes <- as.numeric(indicadores[, interes])*factor
+# Ventana de meses antes y después de cada crisis que queremos graficar
+ventana <- c(-12, 18)
+# Gráfica
+ggplot() + 
+  geom_line(data = indicadores %>% filter(between(mes_crisis_1, ventana[1], ventana[2])),
+            aes(x = mes_crisis_1, y = interes, colour = '2009')) + 
+  geom_line(data = indicadores %>% filter(between(mes_crisis_2, ventana[1], ventana[2])),
+            aes(x = mes_crisis_2, y = interes, colour = '2020')) +
+  labs(title = 'Gráfica 7. Trabajo doméstico remunerado',
+       subtitle = 'Población ocupada', 
+       caption = 'Cifras de la ENOE y ETOE (INEGI)',
+       colour = 'Año') + 
+  xlab('Mes de desarrollo del ajuste de mercado') + 
+  ylab('Millones de personas') +
+  theme_light() + 
+  theme(legend.position = "bottom") + 
+    scale_color_lancet()
+  # scale_colour_simpsons()
+
+```
+
+
+
+## Consideraciones finales
+
+Al analizar el comportamiento de los mercados laborales durante las recesiones recientes, en este Recuadro se ha identificado evidencia a favor del *efecto de la persona trabajadora adicional* en un hogar durante la recesión por la CFG. Por otra parte, la recuperación de la participación laboral femenina durante la recesión pandémica se ha visto por debajo de la masculina durante el periodo de 2020 a 2021, en contraste con el periodo 2009 a 2010. Ello podría deberse a diversos factores, entre ellos el incremento en la demanda de cuidados domésticos y la afectación a sectores en los que las mujeres tienen mayor participación.
+
+Si bien la reincorporación a la participación laboral no ha sido homogénea por identidad de género, tampoco lo ha sido por grupos de edad. Considerando a las mujeres, aquellas de 15 a 24 años muestran excelente recuperación, mientras que el de mujeres mayores a 65 años muestra el mayor rezago. Por otra parte, la presencia de menores de edad en el hogar pareciera tener un efecto diferenciado sobre las mujeres de la tercera edad, lo que parece ofrecer evidencia a favor del mecanismo de la *oferta laboral cautelar*. Además, la afectación sobre el trabajo doméstico remunerado, de participación mayoritariamente femenina, ha representado la pérdida de un ingreso para cientos de miles de familias en el país.
+
+Todo estos elementos son de vital importancia a tener en cuenta para que las políticas y estrategias públicas estén orientadas a fortalecer la reactivación considerando las particularidades de los distintos grupos demográficos, a fin de evitar pérdidas permanentes de puestos de trabajo y evitar que la brecha de género en la participación laboral aumente.
+
+
+
+## Referencias
+
+- Shibata, Ippei. 2020. \emph{The Distributional Impact of Recessions: the Global Financial Crisis and the Pandemic Recession.} IMF Working Paper No. 20/96. (\url{ https://www.imf.org/en/Publications/WP/Issues/2020/06/19/The-Distributional-Impact-of-Recessions-the-Global-Financial-Crisis-and-the-Pandemic-49492}).
+
+- Botelho, Vasco and Neves, Pedro. 2021. \emph{The impact of the COVID-19 crisis on the euro area labour market for men and women}. ECB Economic Bulletin, Issue 4/2021. (\url{ https://www.ecb.europa.eu/pub/economic-bulletin/focus/2021/html/ecb.ebbox202104_04~686c89e9bb.en.html})
+
+- Albanesi, Stefania, and Jiyeon Kim. 2021. \emph{Effects of the COVID-19 Recession on the US Labor Market: Occupation, Family, and Gender.} Journal of Economic Perspectives, 35 (3): 3-24. (\url{ https://www.aeaweb.org/articles?id=10.1257/jep.35.3.3})
+
+- Encuesta Nacional de Ocupación y Empleo, ENOE. Instituto Nacional de Información, Estadística y Geografía, México.
+
+- Encuesta Telefónica de Ocupación y Empleo, ETOE. Instituto Nacional de Información, Estadística y Geografía, México.
+
+- La Tasa de Participación Laboral ante el Choque de COVID 19. Extracto del Informe Trimestral Octubre - Diciembre 2020, Recuadro 3, pp. 43-46, Banxico. Documento publicado el 3 marzo de 2021.
+
+- Ellieroth, Kathrin. 2019. “Spousal Insurance, Precautionary Labor Supply, and the Business Cycle.” Unpublished.
+
+- Lundberg, S. (1985): “The Added Worker Effect,” Journal of Labor Economics, 3(1), 11–37.
+

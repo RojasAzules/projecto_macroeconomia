@@ -1,0 +1,4 @@
+"0","source('src/cambio_en_tasa.R')"
+"2","Error in indicadores %>% filter(mes_crisis_1 == 0) %>% pull(v243_tasa_de_participacion) %>%  : 
+  could not find function ""%>%""
+"
